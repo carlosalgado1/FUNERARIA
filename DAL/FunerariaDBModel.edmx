@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FUNERARIAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ATAUD">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Codigo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="FINADO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Documentos" Type="varchar" MaxLength="90" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Fecha" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MOV">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="Proveedor" Type="varchar" MaxLength="50" />
+          <Property Name="TMov" Type="bit" />
+          <Property Name="FK_ATAUD" Type="int" />
+        </EntityType>
+        <Association Name="FK_MOV_ATAUD">
+          <End Role="ATAUD" Type="Self.ATAUD" Multiplicity="0..1" />
+          <End Role="MOV" Type="Self.MOV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ATAUD">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MOV">
+              <PropertyRef Name="FK_ATAUD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FUNERARIAModelStoreContainer">
+          <EntitySet Name="ATAUD" EntityType="Self.ATAUD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FINADO" EntityType="Self.FINADO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MOV" EntityType="Self.MOV" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_MOV_ATAUD" Association="Self.FK_MOV_ATAUD">
+            <End Role="ATAUD" EntitySet="ATAUD" />
+            <End Role="MOV" EntitySet="MOV" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FUNERARIAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ATAUD">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MOVs" Relationship="Self.FK_MOV_ATAUD" FromRole="ATAUD" ToRole="MOV" />
+        </EntityType>
+        <EntityType Name="MOV">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Proveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TMov" Type="Boolean" />
+          <Property Name="FK_ATAUD" Type="Int32" />
+          <NavigationProperty Name="ATAUD" Relationship="Self.FK_MOV_ATAUD" FromRole="MOV" ToRole="ATAUD" />
+        </EntityType>
+        <Association Name="FK_MOV_ATAUD">
+          <End Role="ATAUD" Type="Self.ATAUD" Multiplicity="0..1" />
+          <End Role="MOV" Type="Self.MOV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ATAUD">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MOV">
+              <PropertyRef Name="FK_ATAUD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FUNERARIAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ATAUDs" EntityType="Self.ATAUD" />
+          <EntitySet Name="MOVs" EntityType="Self.MOV" />
+          <AssociationSet Name="FK_MOV_ATAUD" Association="Self.FK_MOV_ATAUD">
+            <End Role="ATAUD" EntitySet="ATAUDs" />
+            <End Role="MOV" EntitySet="MOVs" />
+          </AssociationSet>
+          <EntitySet Name="FINADOes" EntityType="FUNERARIAModel.FINADO" />
+        </EntityContainer>
+        <EntityType Name="FINADO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Documentos" Type="String" MaxLength="90" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FUNERARIAModelStoreContainer" CdmEntityContainer="FUNERARIAEntities">
+          <EntitySetMapping Name="ATAUDs">
+            <EntityTypeMapping TypeName="FUNERARIAModel.ATAUD">
+              <MappingFragment StoreEntitySet="ATAUD">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MOVs">
+            <EntityTypeMapping TypeName="FUNERARIAModel.MOV">
+              <MappingFragment StoreEntitySet="MOV">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Proveedor" ColumnName="Proveedor" />
+                <ScalarProperty Name="TMov" ColumnName="TMov" />
+                <ScalarProperty Name="FK_ATAUD" ColumnName="FK_ATAUD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FINADOes">
+            <EntityTypeMapping TypeName="FUNERARIAModel.FINADO">
+              <MappingFragment StoreEntitySet="FINADO">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Documentos" ColumnName="Documentos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
