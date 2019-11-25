@@ -12,10 +12,10 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            //AgregarAtaud();
+            AgregarAtaud();
             //BuscarYModificar();
             //Listar();
-            BuscarYEliminar();
+            //BuscarYEliminar();
             //TipoDeMov();
             Console.Write("PRESIONE PARA FINALIZAR");
             Console.ReadLine();
